@@ -1,0 +1,9 @@
+Rahul Iyer
+Email: rahul.iyer@example.com | Phone: 9123456789
+Summary
+Data Scientist with experience in classification, regression, NLP and time series.
+Skills: Python, Pandas, Numpy, scikit-learn, XGBoost, Random Forest, Statistics
+Experience
+Intern 2024–2025: Built ML models for demand forecasting
+Education
+M.Sc. Data Science, University of Mumbai

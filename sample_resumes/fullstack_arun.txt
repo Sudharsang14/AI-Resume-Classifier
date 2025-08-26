@@ -1,0 +1,9 @@
+Arun Kumar
+Email: arun.k@example.com | Phone: +91 9012345678
+Summary
+Full Stack Developer experienced with React and Node.
+Skills: JavaScript, React, Node, Express, TypeScript, HTML, CSS, REST API, SQL, Docker, AWS
+Experience
+2023–2025: Web Developer at StartUpX
+Education
+B.E. Information Technology, PSG Tech

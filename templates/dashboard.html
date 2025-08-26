@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Resume Classifier — Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-950 text-white">
+    <header class="p-6 flex justify-between items-center">
+      <h1 class="text-xl font-bold">AI Resume Classifier</h1>
+      <a href="/logout" class="text-sm underline">Logout</a>
+    </header>
+    <main class="max-w-4xl mx-auto p-6">
+      <div class="grid md:grid-cols-2 gap-6">
+        <a href="/single" class="rounded-2xl p-8 bg-white/10 hover:bg-white/20 transition shadow-xl">
+          <h2 class="text-lg font-semibold mb-2">Analyze Single Resume</h2>
+          <p class="text-sm text-white/70">Upload a single resume and get a detailed ATS score and decision.</p>
+        </a>
+        <a href="/bulk" class="rounded-2xl p-8 bg-white/10 hover:bg-white/20 transition shadow-xl">
+          <h2 class="text-lg font-semibold mb-2">Analyze Bulk Resumes</h2>
+          <p class="text-sm text-white/70">Upload 1000+ resumes at once and download results as CSV.</p>
+        </a>
+      </div>
+      <div class="mt-10 rounded-2xl p-6 bg-white/5">
+        <h3 class="font-semibold mb-3">Select Target Job Role</h3>
+        <p class="text-sm text-white/70">You can choose the target role on the Single or Bulk analysis pages.</p>
+        <ul class="text-sm list-disc ml-6 mt-2 text-white/70">
+          <li>Data Analyst</li>
+          <li>Data Engineer</li>
+          <li>Data Scientist</li>
+          <li>Full Stack Developer</li>
+          <li>DevOps Engineer</li>
+          <li>Tester</li>
+          <li>ML Engineer</li>
+          <li>AI Engineer</li>
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>

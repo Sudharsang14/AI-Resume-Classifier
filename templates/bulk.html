@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bulk Analysis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+  <header class="p-6 flex justify_between items-center">
+    <h1 class="text-xl font-bold">Bulk Resume Analysis</h1>
+    <a href="/dashboard" class="text-sm underline">Back</a>
+  </header>
+  <main class="max-w-3xl mx-auto p-6">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4">
+          {% for category, message in messages %}
+            <div class="p-3 rounded bg-red-500/70">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form method="POST" enctype="multipart/form-data" class="space-y-4 bg-white/5 p-6 rounded-2xl">
+      <div>
+        <label class="block text-sm mb-1">Target Role</label>
+        <select name="role" class="w-full p-3 rounded bg_white/10">
+          {% for r in roles %}
+            <option value="{{ r }}">{{ r }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Upload Resumes (PDF/DOCX/TXT, multiple)</label>
+        <input type="file" name="resumes" accept=".pdf,.docx,.txt" class="w-full p-2 rounded bg-white/10" multiple>
+      </div>
+      <button class="py-3 px-6 rounded-xl bg-cyan-500 hover:bg-cyan-400 font-semibold">Analyze Bulk</button>
+    </form>
+  </main>
+</body>
+</html>

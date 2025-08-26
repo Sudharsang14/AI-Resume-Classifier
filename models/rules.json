@@ -1,0 +1,161 @@
+{
+  "Data Analyst": {
+    "keywords": [
+      "excel",
+      "sql",
+      "power bi",
+      "tableau",
+      "statistics",
+      "a/b testing",
+      "regression",
+      "dashboards",
+      "data visualization",
+      "etl",
+      "reporting",
+      "python",
+      "pandas",
+      "business analysis"
+    ],
+    "min_experience": 0
+  },
+  "Data Engineer": {
+    "keywords": [
+      "spark",
+      "hadoop",
+      "airflow",
+      "kafka",
+      "etl",
+      "data pipeline",
+      "warehouse",
+      "snowflake",
+      "redshift",
+      "bigquery",
+      "dbt",
+      "sql",
+      "python",
+      "scala",
+      "aws",
+      "gcp",
+      "azure"
+    ],
+    "min_experience": 1
+  },
+  "Data Scientist": {
+    "keywords": [
+      "python",
+      "pandas",
+      "numpy",
+      "scikit-learn",
+      "machine learning",
+      "classification",
+      "regression",
+      "nlp",
+      "time series",
+      "statistics",
+      "experimentation",
+      "model deployment",
+      "feature engineering",
+      "xgboost",
+      "random forest"
+    ],
+    "min_experience": 0
+  },
+  "Full Stack Developer": {
+    "keywords": [
+      "javascript",
+      "react",
+      "node",
+      "express",
+      "typescript",
+      "html",
+      "css",
+      "rest api",
+      "sql",
+      "mongodb",
+      "postgres",
+      "docker",
+      "aws",
+      "ci/cd",
+      "git"
+    ],
+    "min_experience": 0
+  },
+  "DevOps Engineer": {
+    "keywords": [
+      "ci/cd",
+      "jenkins",
+      "github actions",
+      "gitlab ci",
+      "docker",
+      "kubernetes",
+      "helm",
+      "terraform",
+      "ansible",
+      "aws",
+      "gcp",
+      "azure",
+      "monitoring",
+      "prometheus",
+      "grafana",
+      "sre"
+    ],
+    "min_experience": 1
+  },
+  "Tester": {
+    "keywords": [
+      "software testing",
+      "test cases",
+      "selenium",
+      "cypress",
+      "automation",
+      "api testing",
+      "manual testing",
+      "jmeter",
+      "postman",
+      "pytest",
+      "unit testing",
+      "integration testing"
+    ],
+    "min_experience": 0
+  },
+  "ML Engineer": {
+    "keywords": [
+      "mlops",
+      "model serving",
+      "tensorflow",
+      "pytorch",
+      "onnx",
+      "docker",
+      "kubernetes",
+      "feature store",
+      "monitoring",
+      "airflow",
+      "kubeflow",
+      "ray",
+      "mlflow",
+      "fastapi",
+      "inference",
+      "latency"
+    ],
+    "min_experience": 0
+  },
+  "AI Engineer": {
+    "keywords": [
+      "llm",
+      "prompt engineering",
+      "rag",
+      "vector db",
+      "embedding",
+      "openai",
+      "hugging face",
+      "transformers",
+      "langchain",
+      "llamaindex",
+      "fine-tuning",
+      "inference",
+      "latency",
+      "evaluation"
+    ],
+    "min_experience": 0
+  }
+}

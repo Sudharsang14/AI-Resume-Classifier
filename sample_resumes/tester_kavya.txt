@@ -1,0 +1,9 @@
+Kavya P
+Email: kavya.p@example.com | Phone: 9090909090
+Summary
+Software Tester with automation experience.
+Skills: Test Cases, Selenium, Cypress, API Testing, JMeter, Postman, PyTest, Unit Testing
+Experience
+2023–2025: QA at EdTech Co.
+Education
+B.Sc. Computer Science

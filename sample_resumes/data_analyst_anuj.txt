@@ -1,0 +1,11 @@
+Anuj Sharma
+Email: anuj.sharma@example.com | Phone: +91 9876543210
+Summary
+Data Analyst with 2 years experience in building dashboards and reports.
+Skills: Excel, SQL, Power BI, Tableau, Python, Pandas, Data Visualization
+Experience
+2023–2025: Junior Data Analyst at RetailCo — built sales dashboards, A/B testing, ETL
+Education
+B.E. in Computer Science, Anna University
+Projects
+Customer churn analysis using regression and cohort dashboards

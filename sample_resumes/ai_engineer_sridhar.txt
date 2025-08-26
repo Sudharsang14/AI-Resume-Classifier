@@ -1,0 +1,9 @@
+Sridhar T
+Email: sridhar.t@example.com | Phone: 9008007006
+Summary
+AI Engineer working with LLMs, RAG and vector databases.
+Skills: LLM, Prompt Engineering, RAG, Vector DB, Embeddings, Hugging Face, Transformers, LangChain, Fine-tuning
+Experience
+2024–2025: AI Engineer at ProductCo
+Education
+M.Tech AI, IIT Hyderabad

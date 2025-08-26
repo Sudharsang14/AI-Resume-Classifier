@@ -1,0 +1,9 @@
+Meera N
+Email: meera.n@example.com | Phone: 9876501234
+Summary
+Data Engineer with 3 years building data pipelines.
+Skills: Python, SQL, Spark, Airflow, Kafka, AWS, ETL, Snowflake
+Experience
+2022–2025: Data Engineer at FinServe — built streaming pipelines with Kafka and Spark
+Education
+B.Tech, NIT Trichy

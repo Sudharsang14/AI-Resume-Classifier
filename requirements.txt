@@ -1,0 +1,4 @@
+Flask==3.0.3
+python-docx==1.1.2
+pdfminer.six==20240706
+Werkzeug==3.0.3

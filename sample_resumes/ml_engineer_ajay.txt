@@ -1,0 +1,9 @@
+Ajay Verma
+Email: ajay.v@example.com | Phone: 9345678901
+Summary
+ML Engineer focusing on model serving and MLOps.
+Skills: TensorFlow, PyTorch, ONNX, Docker, Kubernetes, Feature Store, MLflow, FastAPI, Inference
+Experience
+2023–2025: ML Engineer at AI Labs
+Education
+B.E. ECE, VIT

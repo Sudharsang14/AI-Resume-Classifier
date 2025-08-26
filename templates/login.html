@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Resume Classifier — Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-slate-900 to-gray-800 text-white flex items-center justify-center">
+    <div class="w-full max-w-md bg-white/10 backdrop-blur rounded-2xl p-8 shadow-xl">
+      <h1 class="text-2xl font-bold text-center mb-6">AI Resume Classifier</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="mb-4">
+            {% for category, message in messages %}
+              <div class="p-3 rounded bg-red-500/70">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      <form method="POST" class="space-y-4">
+        <div>
+          <label class="block text-sm mb-1">Name</label>
+          <input type="text" name="name" required class="w-full p-3 rounded bg-white/20 placeholder-white/60 outline-none focus:ring-2 focus:ring-cyan-400">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Password</label>
+          <input type="password" name="password" required class="w-full p-3 rounded bg-white/20 placeholder-white/60 outline-none focus:ring-2 focus:ring-cyan-400">
+          <p class="mt-2 text-xs text-white/60">Hint: use the password provided in the requirements.</p>
+        </div>
+        <button class="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 transition font-semibold">Login</button>
+      </form>
+    </div>
+  </body>
+</html>

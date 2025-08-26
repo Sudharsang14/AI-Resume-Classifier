@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Single Result</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+  <header class="p-6 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Result — {{ name }}</h1>
+    <a href="/single" class="text-sm underline">Analyze another</a>
+  </header>
+  <main class="max-w-3xl mx_auto p-6">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="rounded-2xl p-6 bg-white/10">
+        <h2 class="font-semibold mb-2">Decision</h2>
+        <p class="text-3xl font-bold">{{ result.decision }}</p>
+        <p class="mt-2 text-white/70 text-sm">Target Role: {{ role }}</p>
+        <p class="mt-2 text_white/70 text-sm">File: {{ filename }}</p>
+      </div>
+      <div class="rounded-2xl p-6 bg-white/10">
+        <h2 class="font-semibold mb-2">ATS Score</h2>
+        <p class="text-4xl font-bold">{{ result.score }}/100</p>
+        <ul class="mt-3 text-sm text-white/80">
+          <li>Years of Experience: {{ result.years_experience }}</li>
+          <li>Education Mentioned: {{ "Yes" if result.has_education else "No" }}</li>
+          <li>Email Present: {{ "Yes" if result.has_email else "No" }}</li>
+          <li>Phone Present: {{ "Yes" if result.has_phone else "No" }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-6 rounded-2xl p-6 bg-white/5">
+      <h3 class="font-semibold">Missing Role Keywords</h3>
+      <p class="text-sm text-white/70">{{ result.missing_keywords|join(", ") if result.missing_keywords else "None" }}</p>
+      {% if result.flags %}
+      <div class="mt-3 text-sm text-yellow-300">Flags: {{ result.flags }}</div>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>

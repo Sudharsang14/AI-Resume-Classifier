@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bulk Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+  <header class="p-6 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Bulk Results — {{ role }}</h1>
+    <a href="/bulk" class="text-sm underline">Run again</a>
+  </header>
+  <main class="max-w-5xl mx-auto p-6">
+    <div class="rounded-2xl p-6 bg-white/10 mb-6">
+      <a href="/download_csv" class="py-2 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 font-semibold">Download CSV</a>
+      <span class="ml-3 text-sm text-white/70">File prepared: {{ csv_file }}</span>
+    </div>
+
+    <div class="overflow-x-auto rounded-2xl">
+      <table class="min-w-full text-sm">
+        <thead class="bg-white/10">
+          <tr>
+            <th class="text-left p-3">Filename</th>
+            <th class="text-left p-3">Name</th>
+            <th class="text-left p-3">Score</th>
+            <th class="text-left p-3">Decision</th>
+            <th class="text-left p-3">Years Exp</th>
+            <th class="text-left p-3">Email</th>
+            <th class="text-left p-3">Phone</th>
+            <th class="text-left p-3">Education</th>
+            <th class="text-left p-3">Missing Keywords</th>
+            <th class="text-left p-3">Flags</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+          <tr class="border-b border-white/10">
+            <td class="p-3">{{ r.filename }}</td>
+            <td class="p-3">{{ r.name }}</td>
+            <td class="p-3">{{ r.score }}</td>
+            <td class="p-3">{{ r.decision }}</td>
+            <td class="p-3">{{ r.years_experience }}</td>
+            <td class="p-3">{{ "Yes" if r.has_email else "No" }}</td>
+            <td class="p-3">{{ "Yes" if r.has_phone else "No" }}</td>
+            <td class="p-3">{{ "Yes" if r.has_education else "No" }}</td>
+            <td class="p-3">{{ r.missing_keywords }}</td>
+            <td class="p-3">{{ r.flags }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

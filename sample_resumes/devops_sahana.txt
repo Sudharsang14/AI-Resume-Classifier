@@ -1,0 +1,9 @@
+Sahana R
+Email: sahana.r@example.com | Phone: 9988776655
+Summary
+DevOps Engineer with CI/CD and Kubernetes exposure.
+Skills: CI/CD, Jenkins, GitHub Actions, Docker, Kubernetes, Helm, Terraform, AWS, Monitoring, Prometheus, Grafana
+Experience
+2021–2025: DevOps at HealthTech
+Education
+B.Tech, SRM
