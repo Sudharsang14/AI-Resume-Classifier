@@ -22,7 +22,7 @@ REM Set Flask environment
 set FLASK_APP=app.py
 set FLASK_RUN_PORT=5001
 
-echo Starting Flask server at http://127.0.0.1:5001
+echo Starting Flask server at http://127.0.0.1:5002
 flask run
 
 endlocal
