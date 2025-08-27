@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file, flash
-import os, re, io, csv, json, shutil, socket
+import os, re, io, csv, json
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
@@ -33,16 +33,17 @@ def extract_text(file_path):
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 return f.read()
     except Exception as e:
-        print(f"Error extracting text from {file_path}: {e}")
         return ""
     return ""
 
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 PHONE_RE = re.compile(r"(\+?\d{1,3}[-.\s]?)?(\d{10})\b")
 YEAR_RE = re.compile(r"(\d{1,2})\s*\+?\s*years", re.I)
+
 SECTION_HINTS = ["education", "experience", "projects", "skills", "certifications", "summary", "objective"]
 
 def est_years_experience(text):
+    # very rough heuristic: look for "X years" phrases, take max
     years = 0
     for m in YEAR_RE.finditer(text):
         try:
@@ -52,9 +53,11 @@ def est_years_experience(text):
     return years
 
 def detect_name(text):
+    # Take first non-empty line and strip non-letters (very rough)
     for line in text.splitlines():
         line = line.strip()
         if len(line) > 3 and not EMAIL_RE.search(line) and not PHONE_RE.search(line):
+            # Return first 4 words max
             tokens = re.findall(r"[A-Za-z][A-Za-z\-']*", line)
             if tokens:
                 return " ".join(tokens[:4])
@@ -68,22 +71,17 @@ def ats_score(text, target_role):
     # Contact info
     has_email = bool(EMAIL_RE.search(text))
     has_phone = bool(PHONE_RE.search(text))
-    if has_email:
-        score += 8
-    else:
-        details.append("Missing email")
-    if has_phone:
-        score += 6
-    else:
-        details.append("Missing phone")
+    if has_email: score += 8
+    else: details.append("Missing email")
+    if has_phone: score += 6
+    else: details.append("Missing phone")
 
     # Sections
     found_sections = sum(1 for s in SECTION_HINTS if s in text_lower)
-    score += min(found_sections * 4, 20)
+    score += min(found_sections * 4, 20)  # max 20
 
     # Education
-    edu_terms = ["b.e", "btech", "b.tech", "bachelor", "master", "m.e", "mtech",
-                 "university", "degree", "bsc", "msc", "be ", "bs ", "ms "]
+    edu_terms = ["b.e", "btech", "b.tech", "bachelor", "master", "m.e", "mtech", "university", "degree", "bsc", "msc", "be ", "bs ", "ms "]
     has_edu = any(t in text_lower for t in edu_terms)
     if has_edu:
         score += 12
@@ -92,7 +90,7 @@ def ats_score(text, target_role):
 
     # Experience heuristic
     years = est_years_experience(text_lower)
-    score += min(years * 3, 18)
+    score += min(years * 3, 18)  # cap
 
     # Role-match keywords
     role_info = ROLE_RULES.get(target_role, {})
@@ -147,9 +145,6 @@ def single():
         return redirect(url_for("login"))
     if request.method == "POST":
         role = request.form.get("role")
-        if role not in ROLE_RULES:
-            flash("Invalid role selected.", "error")
-            return redirect(request.url)
         f = request.files.get("resume")
         if not f or not f.filename:
             flash("Please upload a resume.", "error")
@@ -173,9 +168,6 @@ def bulk():
         return redirect(url_for("login"))
     if request.method == "POST":
         role = request.form.get("role")
-        if role not in ROLE_RULES:
-            flash("Invalid role selected.", "error")
-            return redirect(request.url)
         files = request.files.getlist("resumes")
         if not files or len(files) == 0:
             flash("Please upload one or more resumes.", "error")
@@ -206,14 +198,14 @@ def bulk():
                 "missing_keywords": ";".join(res["missing_keywords"]),
                 "flags": res["flags"]
             })
+        # Save CSV to disk for download
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         csv_name = f"bulk_results_{timestamp}.csv"
         csv_path = os.path.join("downloads", csv_name)
         os.makedirs("downloads", exist_ok=True)
         with open(csv_path, "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=list(results[0].keys()) if results else [
-                "filename","name","role","score","decision","years_experience",
-                "has_email","has_phone","has_education","missing_keywords","flags"
+                "filename","name","role","score","decision","years_experience","has_email","has_phone","has_education","missing_keywords","flags"
             ])
             writer.writeheader()
             for row in results:
@@ -237,31 +229,7 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
-# -------------------------
-# Helper to find a free port
-# -------------------------
-def find_free_port(default_port=6000):
-    s = socket.socket()
-    try:
-        s.bind(('', default_port))
-        s.close()
-        return default_port
-    except OSError:
-        s.close()
-        s = socket.socket()
-        s.bind(('', 0))  # pick a free port
-        port = s.getsockname()[1]
-        s.close()
-        return port
-
 if __name__ == "__main__":
     os.makedirs("uploads", exist_ok=True)
     os.makedirs("downloads", exist_ok=True)
-
-    # Optional: clean old uploads to avoid clutter
-    shutil.rmtree("uploads", ignore_errors=True)
-    os.makedirs("uploads", exist_ok=True)
-
-    port = find_free_port(int(os.environ.get("PORT", 6000)))
-    debug_mode = os.environ.get("FLASK_DEBUG", "False") == "True"
-    app.run(host="0.0.0.0", port=port, debug=debug_mode, use_reloader=debug_mode)
+    app.run(debug=True)
