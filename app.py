@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file, flash
-import os, re, io, csv, json
+import os, re, io, csv, json, shutil, socket
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
@@ -32,14 +32,14 @@ def extract_text(file_path):
         elif ext == ".txt":
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 return f.read()
-    except Exception:
+    except Exception as e:
+        print(f"Error extracting text from {file_path}: {e}")
         return ""
     return ""
 
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 PHONE_RE = re.compile(r"(\+?\d{1,3}[-.\s]?)?(\d{10})\b")
 YEAR_RE = re.compile(r"(\d{1,2})\s*\+?\s*years", re.I)
-
 SECTION_HINTS = ["education", "experience", "projects", "skills", "certifications", "summary", "objective"]
 
 def est_years_experience(text):
@@ -147,6 +147,9 @@ def single():
         return redirect(url_for("login"))
     if request.method == "POST":
         role = request.form.get("role")
+        if role not in ROLE_RULES:
+            flash("Invalid role selected.", "error")
+            return redirect(request.url)
         f = request.files.get("resume")
         if not f or not f.filename:
             flash("Please upload a resume.", "error")
@@ -170,6 +173,9 @@ def bulk():
         return redirect(url_for("login"))
     if request.method == "POST":
         role = request.form.get("role")
+        if role not in ROLE_RULES:
+            flash("Invalid role selected.", "error")
+            return redirect(request.url)
         files = request.files.getlist("resumes")
         if not files or len(files) == 0:
             flash("Please upload one or more resumes.", "error")
@@ -231,10 +237,31 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
+# -------------------------
+# Helper to find a free port
+# -------------------------
+def find_free_port(default_port=6000):
+    s = socket.socket()
+    try:
+        s.bind(('', default_port))
+        s.close()
+        return default_port
+    except OSError:
+        s.close()
+        s = socket.socket()
+        s.bind(('', 0))  # pick a free port
+        port = s.getsockname()[1]
+        s.close()
+        return port
+
 if __name__ == "__main__":
     os.makedirs("uploads", exist_ok=True)
     os.makedirs("downloads", exist_ok=True)
 
-    # ✅ Use environment-based port to avoid conflicts
-    port = int(os.environ.get("PORT", 6000))
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
+    # Optional: clean old uploads to avoid clutter
+    shutil.rmtree("uploads", ignore_errors=True)
+    os.makedirs("uploads", exist_ok=True)
+
+    port = find_free_port(int(os.environ.get("PORT", 6000)))
+    debug_mode = os.environ.get("FLASK_DEBUG", "False") == "True"
+    app.run(host="0.0.0.0", port=port, debug=debug_mode, use_reloader=debug_mode)
