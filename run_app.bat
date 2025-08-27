@@ -16,7 +16,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 set FLASK_APP=app.py
-echo Starting Flask server at http://127.0.0.1:5000
+echo Starting Flask server at http://127.0.0.1:5001
 flask run
 
 endlocal
