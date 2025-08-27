@@ -20,9 +20,15 @@ pip install -r requirements.txt
 
 REM Set Flask environment
 set FLASK_APP=app.py
-set FLASK_RUN_PORT=5001
+set PORT=5001
 
-echo Starting Flask server at http://127.0.0.1:6000
-flask run
+REM Check if the port is in use and kill the process
+for /f "tokens=5" %%a in ('netstat -a -n -o ^| findstr :%PORT%') do (
+    echo Killing process using port %PORT% with PID %%a
+    taskkill /PID %%a /F
+)
+
+echo Starting Flask server at http://127.0.0.1:%PORT%
+flask run --port %PORT%
 
 endlocal
