@@ -234,5 +234,7 @@ def logout():
 if __name__ == "__main__":
     os.makedirs("uploads", exist_ok=True)
     os.makedirs("downloads", exist_ok=True)
-    # 👇 disable reloader to avoid Python 3.13 signal issue inside Streamlit
-    app.run(debug=True, use_reloader=False)
+
+    # ✅ Use environment-based port to avoid conflicts
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
