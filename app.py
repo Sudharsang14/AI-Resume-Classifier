@@ -32,7 +32,7 @@ def extract_text(file_path):
         elif ext == ".txt":
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 return f.read()
-    except Exception as e:
+    except Exception:
         return ""
     return ""
 
@@ -43,7 +43,6 @@ YEAR_RE = re.compile(r"(\d{1,2})\s*\+?\s*years", re.I)
 SECTION_HINTS = ["education", "experience", "projects", "skills", "certifications", "summary", "objective"]
 
 def est_years_experience(text):
-    # very rough heuristic: look for "X years" phrases, take max
     years = 0
     for m in YEAR_RE.finditer(text):
         try:
@@ -53,11 +52,9 @@ def est_years_experience(text):
     return years
 
 def detect_name(text):
-    # Take first non-empty line and strip non-letters (very rough)
     for line in text.splitlines():
         line = line.strip()
         if len(line) > 3 and not EMAIL_RE.search(line) and not PHONE_RE.search(line):
-            # Return first 4 words max
             tokens = re.findall(r"[A-Za-z][A-Za-z\-']*", line)
             if tokens:
                 return " ".join(tokens[:4])
@@ -71,17 +68,22 @@ def ats_score(text, target_role):
     # Contact info
     has_email = bool(EMAIL_RE.search(text))
     has_phone = bool(PHONE_RE.search(text))
-    if has_email: score += 8
-    else: details.append("Missing email")
-    if has_phone: score += 6
-    else: details.append("Missing phone")
+    if has_email:
+        score += 8
+    else:
+        details.append("Missing email")
+    if has_phone:
+        score += 6
+    else:
+        details.append("Missing phone")
 
     # Sections
     found_sections = sum(1 for s in SECTION_HINTS if s in text_lower)
-    score += min(found_sections * 4, 20)  # max 20
+    score += min(found_sections * 4, 20)
 
     # Education
-    edu_terms = ["b.e", "btech", "b.tech", "bachelor", "master", "m.e", "mtech", "university", "degree", "bsc", "msc", "be ", "bs ", "ms "]
+    edu_terms = ["b.e", "btech", "b.tech", "bachelor", "master", "m.e", "mtech",
+                 "university", "degree", "bsc", "msc", "be ", "bs ", "ms "]
     has_edu = any(t in text_lower for t in edu_terms)
     if has_edu:
         score += 12
@@ -90,7 +92,7 @@ def ats_score(text, target_role):
 
     # Experience heuristic
     years = est_years_experience(text_lower)
-    score += min(years * 3, 18)  # cap
+    score += min(years * 3, 18)
 
     # Role-match keywords
     role_info = ROLE_RULES.get(target_role, {})
@@ -198,14 +200,14 @@ def bulk():
                 "missing_keywords": ";".join(res["missing_keywords"]),
                 "flags": res["flags"]
             })
-        # Save CSV to disk for download
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         csv_name = f"bulk_results_{timestamp}.csv"
         csv_path = os.path.join("downloads", csv_name)
         os.makedirs("downloads", exist_ok=True)
         with open(csv_path, "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=list(results[0].keys()) if results else [
-                "filename","name","role","score","decision","years_experience","has_email","has_phone","has_education","missing_keywords","flags"
+                "filename","name","role","score","decision","years_experience",
+                "has_email","has_phone","has_education","missing_keywords","flags"
             ])
             writer.writeheader()
             for row in results:
@@ -232,4 +234,5 @@ def logout():
 if __name__ == "__main__":
     os.makedirs("uploads", exist_ok=True)
     os.makedirs("downloads", exist_ok=True)
-    app.run(debug=True)
+    # 👇 disable reloader to avoid Python 3.13 signal issue inside Streamlit
+    app.run(debug=True, use_reloader=False)
